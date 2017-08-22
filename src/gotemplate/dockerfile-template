@@ -1,0 +1,14 @@
+FROM {{.Base}}
+MAINTAINER {{.Author}}
+
+{{if .CopyTo}}
+COPY {{.CopyFrom}} {{.CopyTo}}
+{{end}}
+
+{{if .EntryPoint}}
+ENTRYPOINT {{.EntryPoint}} 
+{{end}}
+
+{{if .Command}}
+CMD {{.Command}} 
+{{end}}

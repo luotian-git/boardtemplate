@@ -1,3 +1,0 @@
-FROM {{.Base}}
-COPY {{.CopyFrom}} {{.CopyTo}}
-CMD {{.Command}} 

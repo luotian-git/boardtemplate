@@ -11,15 +11,17 @@ import "model"
 
 func dockerfile() {
 	myimage := model.Dockerfile{Base: "luotian1/learn-ping",
-		CopyFrom: "*",
-		CopyTo:   "/tmp/",
-		Command:  "ping 10.110.18.70"}
+		Author:     "luo",
+		CopyFrom:   "*",
+		CopyTo:     "/tmp/",
+		EntryPoint: "",
+		Command:    "ping 10.110.18.70"}
 
 	//fmt.Println("dockerfile = ", myimage)
 	var tmpl *template.Template
 	//tmpl := template.New("dockerfile")
 	//tmpl.Parse("FROM {{.Base}}\nCOPY {{.CopyFrom}} {{.CopyTo}}\nENTRYPOINT {{.Entrypoint}} \n")
-	tmpl, err := template.ParseFiles("dockerfile-template.txt")
+	tmpl, err := template.ParseFiles("dockerfile-template")
 	if err != nil {
 		fmt.Println(err)
 	}

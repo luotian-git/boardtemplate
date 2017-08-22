@@ -1,8 +1,10 @@
 package model
 
 type Dockerfile struct {
-	Base     string
-	CopyFrom string
-	CopyTo   string
-	Command  string
+	Base       string
+	Author     string
+	CopyFrom   string
+	CopyTo     string
+	EntryPoint string
+	Command    string
 }
