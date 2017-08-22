@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.ServiceName}}
+  labels:
+    app: {{.ServiceName}}
+spec:
+  {{if .ExternalService}}
+  type: NodePort
+  {{end}}
+  {{if .PortList}}
+  ports:
+  {{range .PortList}}
+  - port: {{.Port}}
+    targetPort: {{.TargetPort}}
+    nodePort: {{.NodePort}}
+  {{end}}
+  {{end}}
+  {{if .SelectorList}}
+  selector:
+  {{range .SelectorList}}
+    app: {{.}}
+  {{end}}
+  {{end}}
