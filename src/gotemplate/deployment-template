@@ -15,7 +15,8 @@ spec:
           server: {{.NFSServer}}
           path: {{.VolumePath}}{{end}}{{end}}
       containers:
-        {{range .ContainerList}}- name: {{.ContainerName}}
+        {{range .ContainerList}}
+        - name: {{.ContainerName}}
         image: {{.BaseImage}}
         {{if .Workingdir}}workingDir: {{.Workingdir}}{{end}}
         {{if .Command}}command: {{.Command}}{{end}}
@@ -24,10 +25,15 @@ spec:
             {{if .ContainerCPU}}cpu: {{.ContainerCPU}}{{end}}
             {{if .ContainerMem}}memory: {{.ContainerMem}}{{end}}{{end}}
         {{if .ContainerPorts}}ports:
-        {{range .ContainerPorts}}- containerPort: {{.}}{{end}}{{end}}
+        {{range .ContainerPorts}}
+        - containerPort: {{.}}{{end}}{{end}}
         {{if .VolumeList}}volumeMounts:
-        {{range .VolumeList}}- name: {{.StorageName}}
-          mountPath: {{.ContainerDir}}{{end}}{{end}}
+        {{range .VolumeList}}
+        - name: {{.StorageName}}
+          mountPath: {{.ContainerDir}}
+		{{end}}{{end}}
         {{if .EnvList}}env:
-        {{range .EnvList}}- name: {{.EnvName}}
-          value: {{.EnvValue}}{{end}}{{end}}{{end}}
+        {{range .EnvList}}
+        - name: {{.EnvName}}
+          value: {{.EnvValue}}
+		{{end}}{{end}}{{end}}
