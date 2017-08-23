@@ -1,14 +1,7 @@
 FROM {{.Base}}
 MAINTAINER {{.Author}}
-
-{{if .CopyTo}}
-COPY {{.CopyFrom}} {{.CopyTo}}
-{{end}}
-
-{{if .EntryPoint}}
-ENTRYPOINT {{.EntryPoint}} 
-{{end}}
-
-{{if .Command}}
-CMD {{.Command}} 
-{{end}}
+{{if .Volume}}VOLUME {{.Volume}} {{end}}
+{{if .CopyTo}}COPY {{.CopyFrom}} {{.CopyTo}} {{end}}
+{{if .RUN}}RUN {{.RUN}} {{end}}
+{{if .EntryPoint}}ENTRYPOINT {{.EntryPoint}} {{end}}
+{{if .Command}}CMD [{{.Command}}] {{end}}

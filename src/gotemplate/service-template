@@ -5,20 +5,14 @@ metadata:
   labels:
     app: {{.ServiceName}}
 spec:
-  {{if .ExternalService}}
-  type: NodePort
-  {{end}}
-  {{if .PortList}}
-  ports:
+  {{if .ExternalService}}type: NodePort {{end}}
+  {{if .PortList}}ports:
   {{range .PortList}}
   - port: {{.Port}}
     targetPort: {{.TargetPort}}
     nodePort: {{.NodePort}}
-  {{end}}
-  {{end}}
-  {{if .SelectorList}}
-  selector:
+  {{end}}{{end}}
+  {{if .SelectorList}}selector:
   {{range .SelectorList}}
     app: {{.}}
-  {{end}}
-  {{end}}
+  {{end}}{{end}}

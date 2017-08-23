@@ -1,61 +1,33 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-	name: {{.DeploymentName}}
+  name: {{.DeploymentName}}
 spec:
-	replicas: {{.Replicas}}
-	template:
-		metadata:
-			labels:
-				app: {{.DeploymentName}}
-		spec:
-			{{if .NFSvolumeList}}
-			volumes:
-			{{range .NFSvolumeList}}
-			-	name: {{.VolumeName}}
-				nfs:
-					server: {{.NFSServer}}
-					path: {{.VolumePath}}
-			{{end}}
-			{{end}}
-			containers:
-			{{range .ContainerList}}
-			-	name: {{.ContainerName}}
-				image: {{.BaseImage}}
-				{{if .Workingdir}}
-				workingDir: {{.Workingdir}}
-				{{end}}
-				{{if .Command}}
-				command: {{.Command}}
-				{{end}}
-				{{if .ContainerCPU}}
-				resources:
-					requests:
-						{{if .ContainerCPU}}
-						cpu: {{.ContainerCPU}}
-						{{end}}
-						{{if .ContainerMem}}
-						memory: {{.ContainerMem}}
-						{{end}}
-				{{end}}
-				{{if .ContainerPorts}}
-				ports:
-				{{range .ContainerPorts}}
-				-	containerPort: {{.}}
-				{{end}}
-				{{end}}
-				{{if .VolumeList}}
-				volumeMounts:
-				{{range .VolumeList}}
-				-	name: {{.StorageName}}
-					mountPath: {{.ContainerDir}}
-				{{end}}
-				{{end}}
-				{{if .EnvList}}
-				env:
-				{{range .EnvList}}
-				-	name: {{.EnvName}}
-					value: {{.EnvValue}}
-				{{end}}
-				{{end}}
-			{{end}}
+  replicas: {{.Replicas}}
+  template:
+    metadata:
+      labels:
+        app: {{.DeploymentName}}
+    spec:
+      {{if .NFSvolumeList}}volumes:
+      {{range .NFSvolumeList}}- name: {{.VolumeName}}
+        nfs:
+          server: {{.NFSServer}}
+          path: {{.VolumePath}}{{end}}{{end}}
+      containers:
+        {{range .ContainerList}}- name: {{.ContainerName}}
+        image: {{.BaseImage}}
+        {{if .Workingdir}}workingDir: {{.Workingdir}}{{end}}
+        {{if .Command}}command: {{.Command}}{{end}}
+        {{if or .ContainerCPU .ContainerMem}}resources:
+          requests:
+            {{if .ContainerCPU}}cpu: {{.ContainerCPU}}{{end}}
+            {{if .ContainerMem}}memory: {{.ContainerMem}}{{end}}{{end}}
+        {{if .ContainerPorts}}ports:
+        {{range .ContainerPorts}}- containerPort: {{.}}{{end}}{{end}}
+        {{if .VolumeList}}volumeMounts:
+        {{range .VolumeList}}- name: {{.StorageName}}
+          mountPath: {{.ContainerDir}}{{end}}{{end}}
+        {{if .EnvList}}env:
+        {{range .EnvList}}- name: {{.EnvName}}
+          value: {{.EnvValue}}{{end}}{{end}}{{end}}
